@@ -4,3 +4,4 @@ env/
 venv/
 data_balanced/
 __pycache__/
+*.npz

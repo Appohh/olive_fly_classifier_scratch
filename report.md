@@ -4,6 +4,10 @@ The report must be in imrad
 
 Olive flies are among one of the many species of flies that live around plants and stocks. They are considered as being a pest to the olives. That is why it can be benifitial to olive farmers to identify the flies on their stocks. There are however many more types of flies that exist on the olives that might not be harmfull to the plants. Therefore a method of just counting every fly would not work as that would result in false data and potentially incorrect and inadequate pest control. In order to be able to better control the flies and protect the olives, a farmer must know roughly how many olive flies there actually are on the olives.
 
+This project aims to answer the question:
+
+> What image feature generation algorithms result in best performance of an olive fly binary image classiciation model, in terms of precission and accuracy.
+
 This kind of classification model is a perfect example of multiple logistic regression and a good first project for new learners. The project involves important fundemental steps like data pre-processing, model construction and training and model evaluation. This report describes and outlines the process of developing such a machine learning model. It aims to outline the methods used to pre-process the data and construct the model itself, the results of the model and closes with an analysis and discussion about pre-processing and training alternatives and approaches.
 
 # 2. Methods
@@ -19,6 +23,7 @@ This kind of classification model is a perfect example of multiple logistic regr
 
 <Describe Feature extraction: HOG>
 <Describe Feature extraction: Color mapping>
+<Describe the other relevant features used>
 
 ## 2.3. Model training
 
@@ -31,19 +36,21 @@ This kind of classification model is a perfect example of multiple logistic regr
 
 <Describe the model was trained on 80% of the data, and evaluated on 20%>
 <Describe training params, and why they are good>
+<Describe the different scores per model with different feature algorithms>
 <Describe the training and test accuracy>
 <Describe Precision, recall and F1 score>
 
 # Analysis & Discussion
 
 <Describe what the results mean>
-<Describe the impact of hog features>
-<Describe the impact of color features>
+<Describe the impact of the different feature algorithms>
 <Describe other alternative feature generations>
 <Describe impact of potential PCA (dimensionality reduction) usage>
 
 # Conclusion
 
 <Describe what this project did once more>
+<Describe what the results mean for the reseach question>
+<Answer the research question>
 
 # Bibliography

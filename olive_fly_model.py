@@ -1,16 +1,15 @@
 import numpy as np
 import cv2
 import os
-import matplotlib.pyplot as plt
 import random
 
 from skimage.feature import hog
 from skimage.measure import label
-from sklearn.metrics import confusion_matrix, classification_report, f1_score
-import seaborn as sns
 
 MODEL_FILE = 'olive_model_params.npz'
 DATA_FILE = 'olive_data.npz'
+
+model_params = np.load(MODEL_FILE)
 
 def sigmoid(z):
     """
@@ -110,10 +109,9 @@ def extract_color_histogram(img, bins=(8, 8, 8)):
     
     return hist
 
-def pre_process_data(image_path: str) -> np.ndarray:
+def pre_process_data(image) -> np.ndarray:
     X_combined = []
     
-    image = cv2.imread(image_path)
     image = cv2.resize(src=image, dsize=(170, 170))
     
     forground, mask = extract_foreground(image)
@@ -129,7 +127,7 @@ def pre_process_data(image_path: str) -> np.ndarray:
 
     return X_combined
 
-def detect_olive_fly(image_path: str) -> bool:
+def detect_olive_fly(image) -> bool:
     """
     Detects the presence of olive fly in the given image using a pre-trained logistic regression model.
     
@@ -137,12 +135,11 @@ def detect_olive_fly(image_path: str) -> bool:
     :return: True if olive fly is detected, False otherwise.
     """
     # Load model parameters
-    model_params = np.load(MODEL_FILE)
     w = model_params['w']
     b = model_params['b']
     
     # Preprocess the image
-    img_normalized = pre_process_data(image_path)
+    img_normalized = pre_process_data(image)
     
     # Predict using the logistic regression model
     prediction = predict(w, b, img_normalized)

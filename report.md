@@ -14,16 +14,16 @@ This kind of classification model is a perfect example of multiple logistic regr
 
 ## 2.1. Data collection and pre-processing
 
-<Describe data collected through assignment>
-<Describe pre processing: Extracting foreground>
-<Describe augmentation with flipping and rotating>
-<Describe balance distribution and rebalancing>
+The dataset consists of two image classes provided as part of the assignment: images containing olive flies and images containing other insects or objects found on olive plants. All images were resized to a fixed resolution of 170 × 170 pixels to ensure consistent input dimensions.
+Pre-processing focused on isolating the insect from the background. Foreground extraction was performed using grayscale conversion followed by inverse Otsu thresholding, assuming the insect appears darker than the background. Morphological closing was applied to reduce noise, after which the largest connected component was selected as the foreground region. All non-foreground pixels were replaced with a white background.
+To remove poorly extracted images, the ratio of foreground pixels to total pixels was computed for each image. Images exceeding a manually chosen threshold were considered faulty and removed from the dataset.
+Data augmentation was applied to the olive fly class using horizontal flipping and small rotations of ±15 degrees to increase variation. After cleaning, the dataset was rebalanced by augmenting the olive fly class and randomly downsampling the non-olive fly class so that both classes contained an equal number of images.
 
 ## 2.2. Feature extraction
 
-<Describe Feature extraction: HOG>
-<Describe Feature extraction: Color mapping>
-<Describe the other relevant features used>
+Histogram of Oriented Gradients features were extracted to capture shape and edge information of the insects. Images were converted to grayscale and normalized before computing HOG descriptors with fixed orientation bins, cell size, and block size.
+Color information was captured using normalized three-dimensional RGB color histograms. Each image was converted to RGB space, and a fixed number of bins per channel was used to represent color distribution.
+In addition to using HOG and color features separately, a combined feature representation was created by concatenating both feature vectors. This allowed the model to leverage both structural and color-based information during classification.
 
 ## 2.3. Model training
 
@@ -54,7 +54,7 @@ def sigmoid(z):
     return 1 / (1 + np.exp(-z))
 ```
 
-### Forward propogation
+### 2.3.2. Forward propogation
 
 Of course, when the model is not yet trained, we do not know the $\beta_{1..n}$. However, to predict an outcome we must solve the multiple linear regression problem, to afterwards feed it to the sigmoid function in order for it to output the a prediction between $0$ and $1$. This value can then be interpreted as $true$ or $false$ and we have our prediction.
 
@@ -76,11 +76,28 @@ X = \begin{bmatrix}
 & x_{31} & x_{32} & \cdots & x_{3m} \\
 \vdots & \vdots & \vdots & \ddots & \vdots \\
 & x_{n1} & x_{n2} & \cdots & x_{nm}
+\end{bmatrix}, \qquad
+Y = \begin{bmatrix}
+y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_n
 \end{bmatrix},
+\qquad
+\beta = \begin{bmatrix}
+\beta_1 \\ \beta_2 \\ \beta_3 \\ \vdots \\ \beta_m
+\end{bmatrix}
+\qquad
+\beta_0 = 0.0
 $$
 
-  <Describe Logistic Regression: Sigmoid function>
-  <Describe Forward propogration>
+We can then use clever matrix operations to calculate the predictions in a batch, so we can calculate all the prediction at once using these matrix operations. We can calculate $\hat{y}$ by taking the dot product of $Y = X \times \beta + \beta_0$ And then we can directly feed in the result into the sigmoid function. In code this is implemented as follows
+
+```python
+Y_hat = sigmoid(np.dot(X, w) + b)
+```
+
+### 2.3.3. Gradient decent & backward propagation
+
+With weights and biases of $0$ we cannot make accurate predictions. For that we need to train the model. Because at
+
   <Describe Describe gradient decent and backward propagation>
   <Describe Weights and Bias optimization through n itterations>
 

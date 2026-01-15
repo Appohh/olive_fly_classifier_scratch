@@ -3,5 +3,6 @@ env/
 .venv/
 venv/
 data_balanced/
+Dataset-for-miniproject
 __pycache__/
 *.npz
